@@ -4,6 +4,7 @@ import { OrderItem } from './order-item.entity';
 
 export enum OrderStatus {
   PENDING = 'pending',
+  CONFIRMED = 'confirmed',
   PROCESSING = 'processing',
   SHIPPED = 'shipped',
   DELIVERED = 'delivered',
@@ -12,8 +13,9 @@ export enum OrderStatus {
 
 export enum PaymentStatus {
   PENDING = 'pending',
-  PAID = 'paid',
+  COMPLETED = 'completed',
   FAILED = 'failed',
+  REFUNDED = 'refunded',
 }
 
 @Entity('orders')
@@ -21,14 +23,8 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'order_id', unique: true })
-  orderId: string;
-
-  @Column({ name: 'user_id' })
-  userId: number;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  total: number;
+  @Column({ name: 'total_amount', type: 'decimal', precision: 10, scale: 2 })
+  totalAmount: number;
 
   @Column({
     type: 'enum',
@@ -37,17 +33,14 @@ export class Order {
   })
   status: OrderStatus;
 
-  @Column({ name: 'shipping_address', type: 'jsonb' })
-  shippingAddress: {
-    name: string;
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-  };
+  @Column({ name: 'shipping_address' })
+  shippingAddress: string;
 
-  @Column({ name: 'payment_method' })
-  paymentMethod: string;
+  @Column({ name: 'billing_address', nullable: true })
+  billingAddress: string;
+
+  @Column({ name: 'notes', nullable: true })
+  notes: string;
 
   @Column({
     type: 'enum',

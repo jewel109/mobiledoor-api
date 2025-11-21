@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
 import { SuccessInterceptor } from './success.interceptor';
 import { User } from './user/user.entity';
 import { Product } from './product/product.entity';
@@ -40,6 +41,7 @@ import { OrderItem } from './order/order-item.entity';
     UserModule,
     ProductModule,
     CartModule,
+    OrderModule,
   ],
   providers: [
     {
