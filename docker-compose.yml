@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: mobiledoor-postgres
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-mobiledoor}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mobiledoor-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_DATABASE:-mobiledoor}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  postgres_data:
+
+networks:
+  mobiledoor-network:
+    driver: bridge
