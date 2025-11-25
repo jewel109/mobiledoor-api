@@ -4,7 +4,25 @@ import {
   IsNotEmpty,
   MinLength,
   MaxLength,
+  IsArray,
+  IsNumber,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class OrderItemDto {
+  @IsNumber()
+  @IsNotEmpty()
+  productId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  quantity: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  price: number;
+}
 
 export class CreateOrderDto {
   @IsString()
@@ -23,4 +41,13 @@ export class CreateOrderDto {
   @IsOptional()
   @MaxLength(1000, { message: 'Notes must not exceed 1000 characters' })
   notes?: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Payment method is required' })
+  paymentMethod: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => OrderItemDto)
+  items: OrderItemDto[];
 }

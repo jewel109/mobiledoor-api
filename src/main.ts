@@ -26,7 +26,15 @@ async function bootstrap() {
 
   // CORS
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: [
+      process.env.FRONTEND_URL,
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'http://148.113.209.36:3000',
+      'http://148.113.209.36:3001',
+      'http://148.113.209.36:3002',
+    ].filter(Boolean),
     credentials: true,
   });
 
